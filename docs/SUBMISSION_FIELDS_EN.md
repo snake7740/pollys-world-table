@@ -423,8 +423,33 @@ outstanding work, not completed work.
 | Go-to-market | 3,782 / 8,000, names a specific first user |
 | GitHub repository | `https://github.com/snake7740/pollys-world-table` |
 | Live product | `https://snake7740.github.io/pollys-world-table/` |
-| Judge access instructions | **NOT yet entered.** The text is ready above; the submission tab does not render while backgrounded, so it still needs one save. Do not treat this row as done until it is read back from the server. |
-| Description live evidence | **NOT yet appended.** Same reason as above. |
-| Technical demo video | **awaiting your upload of `polly-demo-subtitled.mp4`** |
-| Pitch video | **awaiting your recording** |
+| Judge access instructions | **Saved.** 1,342 characters, read back from the server |
+| Description live evidence | **Saved.** 4,428 characters total, `LIVE EVIDENCE` block present |
+| Technical demo video | `https://www.youtube.com/watch?v=hj0qxcm6-g4` |
+| Pitch video | `https://www.youtube.com/watch?v=LfJ75FWCfYA` |
 | SUBMIT | not pressed; the terms say judges read whatever is saved at the deadline |
+
+## Submission complete
+
+Read back from `/api/v1/submission` at `2026-10-13T17:29:44Z`:
+
+`phase: ready_to_submit`, `Submission checklist: 5 of 5 complete`, and the form no longer raises the
+"Required information missing" dialog. Every required field holds a real value:
+
+```
+track        Onchain Finance & Trading
+name         Polly's World Table
+logo         uploaded
+oneLiner     185 / 200
+description  4,428 / 8,000   (contains the LIVE EVIDENCE block)
+goToMarket   3,782 / 8,000
+repository   https://github.com/snake7740/pollys-world-table
+demoUrl      https://snake7740.github.io/pollys-world-table/
+demoVideo    https://www.youtube.com/watch?v=hj0qxcm6-g4
+pitchVideo   https://www.youtube.com/watch?v=LfJ75FWCfYA
+access       1,342 characters
+```
+
+Because the terms state "Judges read the copy you have saved when your deadline passes. There is
+nothing to submit.", this entry is complete as it stands. Editing any field before 14 Oct 11:59
+GMT+8 replaces what judges see.
