@@ -176,8 +176,11 @@ through hand-written ABI selectors and `fetch`.
 
 No part of this submission was taken from another project or repository. The earlier drafts of this
 game were built during the hackathon window (1 September to 13 October 2026) and are not published
-elsewhere. The published repository history begins when the project was prepared for submission;
-the work it contains was produced inside the hackathon period.
+elsewhere. The published repository history begins when the project was prepared for submission
+rather than spanning the whole build window, because the code was assembled locally during that
+period and first published at this point. Terms 4.1.1 ask for a commit history covering the build
+window; this history does not, and that is stated plainly rather than worked around with backdated
+commits.
 
 ## AI tooling disclosure
 
