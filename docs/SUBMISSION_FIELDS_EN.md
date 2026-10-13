@@ -389,3 +389,40 @@ The sentence "the market is a simulation, but the contract rules and transaction
 the agreed wording. `README.md`, `RELEASE_STATUS.md`, `docs/SUBMISSION_EN.md`,
 `docs/TECHNICAL_DESIGN_EN.md` and the form text must all say that and nothing stronger: no
 claim of a new market algorithm, no claim of liquidity, and no claim of real financial use.
+
+---
+
+## Technical demo video
+
+Produced with `node scripts/record-demo.mjs` and assembled by `proof/video/build-demo.mjs`.
+
+| Property | Value | Requirement |
+| --- | --- | --- |
+| File | `proof/video/polly-demo-subtitled.mp4` | must be uploaded to YouTube or Loom |
+| Duration | **177.1 s** (2 min 57 s) | at most 3 minutes |
+| Resolution | 1440 x 900 | - |
+| Content | the published site being really operated: practice flow, a rival moving the quote, the stale limit refused with nothing changed, then Testnet mode against the deployed contract, the public feed history and its explorer receipt | must show the product in actual operation and show Monad interactions |
+| Subtitles | burned in, English | - |
+| Disclosure | the final caption states the wallet popup is an injected testnet signer while every quote, trade and revert shown is real | keeps the video honest |
+
+Dead waiting time for chain confirmations was cut with `freezedetect`, keeping 0.5 s of each frozen
+stretch so each screen can still be read. Nothing was simulated and no frame was invented.
+
+## Final state of the submission form
+
+Saved on the platform and read back from the server:
+
+| Field | State |
+| --- | --- |
+| Primary track | Onchain Finance & Trading |
+| Project logo | uploaded |
+| Project name | `Polly's World Table` |
+| One-line description | 185 / 200, sandbox framing, no longer names a different track |
+| Description | live evidence block appended with the real contract, block and transaction hashes |
+| Go-to-market | 3,782 / 8,000, names a specific first user |
+| GitHub repository | `https://github.com/snake7740/pollys-world-table` |
+| Live product | `https://snake7740.github.io/pollys-world-table/` |
+| Judge access instructions | filled with the real address, block and replay command |
+| Technical demo video | **awaiting your upload of `polly-demo-subtitled.mp4`** |
+| Pitch video | **awaiting your recording** |
+| SUBMIT | not pressed; the terms say judges read whatever is saved at the deadline |
