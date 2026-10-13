@@ -97,3 +97,45 @@ signer, while every quote, trade and revert shown is a real Monad Testnet transa
    wallet extension. `RELEASE_STATUS.md` records this as the one acceptance item not reproduced.
 3. `scripts/live-e2e.mjs` reports 12 of 13 checks; the failing one is a timing flake in the harness
    itself, recorded rather than hidden.
+
+## Clean-clone re-verification
+
+Every check above was repeated against a fresh `git clone` rather than the working copy, because a
+claim that only holds on the machine that produced it is not evidence. That re-run found two real
+defects the working copy could not show.
+
+**Defect A, fixed: the repository had no `.gitattributes`.** On a Windows machine with
+`core.autocrlf=true` a clone checks out CRLF. Solidity embeds a metadata hash of the source bytes, so
+that clone compiles to different bytecode than the contract actually deployed, and the published site
+no longer matched the repository byte for byte. This is a reproducibility failure against 4.1 and 9.1.
+Adding `.gitattributes` (`* text=auto eol=lf`, artwork marked binary) and renormalizing fixed it: all
+seven published files then compared byte-identical to the clone, and the deployed runtime code became
+a byte-exact suffix of the clone-compiled creation code.
+
+**Defect B, fixed: `scripts/verify-history.mjs` had no retry.** A clean-clone run died after nine
+minutes on a single `ECONNRESET`. The walk is hundreds of sequential requests and the judge
+instructions tell people to run it, so one dropped connection must not discard the audit. Added
+bounded retries with backoff.
+
+Results from the clean clone, in order:
+
+| Step | Result |
+| --- | --- |
+| `git clone` | OK, 107 tracked files, `LICENSE` present |
+| `npm install` | exit 0 |
+| `npm run check` | exit 0 - 22/22 tests, 55 assets, HTTP allowlist |
+| `npm run compile` | exit 0 - `solc 0.8.37`, 4,076 creation bytes |
+| Deployed bytecode vs clone build | runtime 3,836 bytes is a byte-exact suffix of the 4,076-byte creation code |
+| Published files vs clone | all 7 byte-identical |
+| `node scripts/live-e2e.mjs` | **13 of 13**, exit 0. A purchase clicked in the interface moved the on-chain feed count 9 to 10 |
+| `FROM_BLOCK=70664010 node scripts/verify-history.mjs` | exit 0 - "Event replay passed: 10 trades", digest and trade count agree with the contract |
+
+One earlier line in this document reported the live harness at 12 of 13 with a flaky purchase step.
+That was wrong in its cause: the flake came from the harness draining its own testnet wallet between
+runs, not from the product. With a funded wallet the same run is 13 of 13, and the harness no longer
+mints a new wallet per run.
+
+A note on method: one of the failures during this re-verification was in the checker itself, not the
+project. The first comparison script fed the `0x`-prefixed `eth_getCode` result into an `endsWith`
+against a full `0x`-prefixed creation string, which can never match. Corrected, the check passes. It
+is recorded here because a verifier that fails silently is as dangerous as a test that passes falsely.
