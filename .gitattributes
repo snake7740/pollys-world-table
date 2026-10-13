@@ -1,0 +1,11 @@
+# Pin line endings so a fresh clone compiles to the exact bytecode that is deployed.
+* text=auto eol=lf
+*.png binary
+*.webp binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.mp4 binary
+*.webm binary
+*.ass text eol=lf
