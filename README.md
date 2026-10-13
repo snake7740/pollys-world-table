@@ -217,4 +217,5 @@ Metropolis terms 4.1.5 require four documents. Where each lives:
 | Setup and deployment instructions | "Try it in a minute" and "Deploy your own testnet contract" here |
 
 Submission text as entered on the platform, and the acceptance evidence behind it, are archived in
-`docs/SUBMISSION_FIELDS_EN.md`.
+`docs/SUBMISSION_FIELDS_EN.md`. Every mandatory clause of the hackathon rules, with the place it is
+satisfied and how that was checked, is itemised in `docs/COMPLIANCE_EN.md`.
