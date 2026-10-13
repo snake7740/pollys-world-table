@@ -18,7 +18,7 @@
 | Claim and trade over a mock JSON-RPC endpoint | Fake RPC responses and receipts | Passed, simulated |
 | Independently compare mock traits | Browser code and fake contract values | Passed, simulated |
 | Check public asset paths and forbidden server paths | HTTP smoke test | Passed |
-| Compare contract and browser rules by value, not wording | Source-alignment tests: quote matrix, credit grant, food count, both starting pools, three trait tables, Polly tie-break over 11,111 feed orders | Passed |
+| Compare contract and browser rules by value, not wording | Source-alignment tests: quote matrix, credit grant, food count, both starting pools, three trait tables, and the Polly tie-break over all 11,110 non-empty feed orders of length 1-4 plus the empty case | Passed |
 | Compile the contract | `npm run compile` with pinned `solc` 0.8.37 | Passed, 0 errors, 4,076-byte creation bytecode, no constructor |
 | Check the hand-written browser ABI against the compiled ABI | `src/web3.mjs` selectors, `getMarket()` word count, `TradeExecuted` layout | Passed, 6 of 6 |
 | Check the bundled Keccak and commitment packing | `src/keccak.mjs` and `scripts/verify-history.mjs` against `viem` | Passed |
