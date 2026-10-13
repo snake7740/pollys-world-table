@@ -1,0 +1,21 @@
+import {fileURLToPath} from 'node:url';
+import {readFile,writeFile,mkdir} from 'node:fs/promises';
+if(process.loadEnvFile){try{process.loadEnvFile(fileURLToPath(new URL('../.env',import.meta.url)));}catch{}}
+if(!/^0x[a-fA-F0-9]{64}$/.test(process.env.DEPLOYER_PRIVATE_KEY||''))throw Error('Set DEPLOYER_PRIVATE_KEY in .env; use a testnet-only wallet');
+const {createPublicClient,createWalletClient,http,defineChain}=await import('viem');
+const {privateKeyToAccount}=await import('viem/accounts');
+const rpc=process.env.MONAD_RPC_URL||'https://testnet-rpc.monad.xyz';
+const chain=defineChain({id:10143,name:'Monad Testnet',nativeCurrency:{name:'MON',symbol:'MON',decimals:18},rpcUrls:{default:{http:[rpc]}}});
+const account=privateKeyToAccount(process.env.DEPLOYER_PRIVATE_KEY);
+const publicClient=createPublicClient({chain,transport:http(rpc)});
+if(await publicClient.getChainId()!==10143)throw Error('Wrong network');
+const artifact=JSON.parse(await readFile(new URL('../build/PollyFeedMarket.json',import.meta.url),'utf8'));
+const wallet=createWalletClient({account,chain,transport:http(rpc)});
+const hash=await wallet.deployContract({abi:artifact.abi,bytecode:artifact.bytecode});
+const receipt=await publicClient.waitForTransactionReceipt({hash,timeout:120000});
+if(receipt.status!=='success'||!receipt.contractAddress)throw Error('Deployment failed');
+await mkdir(new URL('../deployments/',import.meta.url),{recursive:true});
+await writeFile(new URL('../deployments/monad-testnet.json',import.meta.url),JSON.stringify({address:receipt.contractAddress,hash,chainId:10143},null,2));
+const config=await readFile(new URL('../config.example.js',import.meta.url),'utf8');
+await writeFile(new URL('../config.js',import.meta.url),config.replace("contractAddress: '',",`contractAddress: '${receipt.contractAddress}',`));
+console.log('Deployed',receipt.contractAddress,'tx',hash);

@@ -1,0 +1,7 @@
+node_modules/
+.env
+build/
+deployments/
+.DS_Store
+
+proof/video/*.webm

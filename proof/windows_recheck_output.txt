@@ -1,0 +1,54 @@
+# Local test output, Windows review workspace, 2026-10-13
+# Host: v24.19.0 on Windows_NT; project copy of v3 with npm install run
+# The Chromium legs are NOT in this file: Python Playwright is not installed here.
+
+$ npm test
+ℹ tests 22
+ℹ pass 22
+ℹ fail 0
+
+$ node scripts/validate-assets.mjs
+PASS: 55 required images, correct paths
+
+$ node scripts/http-smoke.mjs
+HTTP smoke OK: 8 public and 6 forbidden paths
+exit=0
+
+$ npm run compile
+
+Compiled PollyFeedMarket using 0.8.37+commit.f401782d.Emscripten.clang
+
+$ one-off: compiled ABI compared against src/web3.mjs and src/keccak.mjs
+  (reads build/PollyFeedMarket.json, viem as the independent oracle)
+compiler            : 0.8.37+commit.f401782d.Emscripten.clang
+creation bytecode   : 4076 bytes
+constructor         : none, no deploy arguments needed
+  OK   getMarket()               0xf1be1679  <-  getMarket()
+  OK   getPolly()                0xb117fcdc  <-  getPolly()
+  OK   credits(address)          0xfe5ff468  <-  credits(address)
+  OK   claimed(address)          0xc884ef83  <-  claimed(address)
+  OK   claimCredits()            0x7e9eb487  <-  claimCredits()
+  OK   buyAndFeed(uint8,uint256) 0xe76b854b  <-  buyAndFeed(uint8,uint256)
+getMarket() words   : 44 | src/web3.mjs decodeWords(raw,44): match
+TradeExecuted       : TradeExecuted(address,uint8,uint256,uint64,bytes32) | topic0 0xbc3a9571
+event layout        : idx,idx,dat,dat,dat | data words 3
+keccak.mjs vs viem  : 5/5 vectors identical
+commitment payload  : 93 bytes (contract abi.encodePacked needs 93): ok
+commitment hash     : verify-history packing == viem packing
+RESULT              : frontend hand-written ABI agrees with the compiled ABI
+
+$ one-off: negative control, each mutation must turn tests/source-alignment.test.mjs RED
+  Run against a throwaway copy in TEMP; the project itself is never mutated.
+  Baseline, unmutated: # pass 7 # fail 0 
+  MUTATE browser quote formula off by one  -> # pass 6 # fail 1  | caught by: SOURCE 04: quote math equals the contract over the whole reserve space
+  MUTATE contract palette table one value  -> # pass 5 # fail 2  | caught by: SOURCE 05: contract trait tables equal the browser food table,SOURCE 07: browser Polly evolution equals the contract for every feed order
+  MUTATE contract quote expression off by one  -> # pass 5 # fail 2  | caught by: SOURCE 03: explicit on-chain max-price, balances and atomic meal update,SOURCE 04: quote math equals the contract over the whole reserve space
+  MUTATE credit grant constant  -> # pass 6 # fail 1  | caught by: SOURCE 06: grant size, food count and starting pools match the contract
+  MUTATE browser tie-break rule  -> # pass 6 # fail 1  | caught by: SOURCE 07: browser Polly evolution equals the contract for every feed order
+  MUTATE contract credit constant  -> # pass 6 # fail 1  | caught by: SOURCE 06: grant size, food count and starting pools match the contract
+
+NOTE Python Playwright and Chromium are not installed in this workspace, so
+      scripts/browser_e2e.py and scripts/browser_wallet_mock_e2e.py were not run
+      here. Their original output is in proof/local_test_output.txt.
+NOTE config.js still ships contractAddress empty. Nothing in this file is evidence
+      of a deployed contract or a live transaction.

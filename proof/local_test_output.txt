@@ -1,0 +1,135 @@
+
+> pollys-world-table-feed-trade-lab@3.0.0 check
+> npm test && node scripts/validate-assets.mjs && node scripts/http-smoke.mjs && python scripts/browser_e2e.py && python scripts/browser_wallet_mock_e2e.py
+
+
+> pollys-world-table-feed-trade-lab@3.0.0 test
+> node --test tests/*.test.mjs
+
+TAP version 13
+# Subtest: HAPPY 01: a visitor can inspect ten quotes without an account
+ok 1 - HAPPY 01: a visitor can inspect ten quotes without an account
+  ---
+  duration_ms: 1.012296
+  type: 'test'
+  ...
+# Subtest: HAPPY 02: wallet simulator obtains educational credits once
+ok 2 - HAPPY 02: wallet simulator obtains educational credits once
+  ---
+  duration_ms: 0.270979
+  type: 'test'
+  ...
+# Subtest: HAPPY 03: quoted exact-price buy succeeds and feeds one shared Polly
+ok 3 - HAPPY 03: quoted exact-price buy succeeds and feeds one shared Polly
+  ---
+  duration_ms: 0.320112
+  type: 'test'
+  ...
+# Subtest: HAPPY 04: trading updates public price from deterministic reserves
+ok 4 - HAPPY 04: trading updates public price from deterministic reserves
+  ---
+  duration_ms: 0.211799
+  type: 'test'
+  ...
+# Subtest: HAPPY 05: separate simulated players change one shared state
+ok 5 - HAPPY 05: separate simulated players change one shared state
+  ---
+  duration_ms: 0.760205
+  type: 'test'
+  ...
+# Subtest: HAPPY 06: evolution reacts deterministically to the latest trade
+ok 6 - HAPPY 06: evolution reacts deterministically to the latest trade
+  ---
+  duration_ms: 0.392812
+  type: 'test'
+  ...
+# Subtest: HAPPY 07: history can be serialized and verified on another client
+ok 7 - HAPPY 07: history can be serialized and verified on another client
+  ---
+  duration_ms: 0.505692
+  type: 'test'
+  ...
+# Subtest: HAPPY 08: one operation updates credit, liquidity, event and Polly atomically
+ok 8 - HAPPY 08: one operation updates credit, liquidity, event and Polly atomically
+  ---
+  duration_ms: 0.177287
+  type: 'test'
+  ...
+# Subtest: FAIL 01: stale quote is rejected and does not mutate market
+ok 9 - FAIL 01: stale quote is rejected and does not mutate market
+  ---
+  duration_ms: 0.65724
+  type: 'test'
+  ...
+# Subtest: FAIL 02: balance check protects against overspending
+ok 10 - FAIL 02: balance check protects against overspending
+  ---
+  duration_ms: 0.354394
+  type: 'test'
+  ...
+# Subtest: FAIL 03: a second claim must fail
+ok 11 - FAIL 03: a second claim must fail
+  ---
+  duration_ms: 0.208945
+  type: 'test'
+  ...
+# Subtest: FAIL 04: users must claim before trading
+ok 12 - FAIL 04: users must claim before trading
+  ---
+  duration_ms: 0.110156
+  type: 'test'
+  ...
+# Subtest: FAIL 05: invalid IDs and caps cannot mutate market
+ok 13 - FAIL 05: invalid IDs and caps cannot mutate market
+  ---
+  duration_ms: 0.147182
+  type: 'test'
+  ...
+# Subtest: FAIL 06: depleted virtual liquidity rejects new purchases
+ok 14 - FAIL 06: depleted virtual liquidity rejects new purchases
+  ---
+  duration_ms: 0.72982
+  type: 'test'
+  ...
+# Subtest: STABILITY: evolution uses only ten newest feeds
+ok 15 - STABILITY: evolution uses only ten newest feeds
+  ---
+  duration_ms: 0.393904
+  type: 'test'
+  ...
+# Subtest: SOURCE 01: contract and JS use matching initial virtual pools
+ok 16 - SOURCE 01: contract and JS use matching initial virtual pools
+  ---
+  duration_ms: 1.252067
+  type: 'test'
+  ...
+# Subtest: SOURCE 02: contract and JS refer to exactly ten fixed foods
+ok 17 - SOURCE 02: contract and JS refer to exactly ten fixed foods
+  ---
+  duration_ms: 0.108754
+  type: 'test'
+  ...
+# Subtest: SOURCE 03: explicit on-chain max-price, balances and atomic meal update
+ok 18 - SOURCE 03: explicit on-chain max-price, balances and atomic meal update
+  ---
+  duration_ms: 0.15281
+  type: 'test'
+  ...
+1..18
+# tests 18
+# suites 0
+# pass 18
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 61.059292
+PASS: 55 required images, correct paths
+HTTP smoke OK: 8 public and 6 forbidden paths
+PASS browser: original parrot, all foods, eight illustrations load
+PASS browser: price moved, old limit rejected, no partial trade
+PASS browser: claim, live quote preview, buy, feed, market changes and history
+PASS browser: reset practice
+PASS browser: mobile viewport and no JS runtime failures
+PASS mocked wallet/RPC: connect, claim, trade, receipt, contract reads and independent trait check
+NOTE: The RPC and wallet were simulated. A real Monad Testnet acceptance run remains required.
