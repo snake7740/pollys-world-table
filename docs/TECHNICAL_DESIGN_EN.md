@@ -28,4 +28,6 @@ The practice engine mirrors the pool formula and basic error rules. It is delibe
 
 ## Limits
 
-No live contract has been included in this ZIP. Running the code locally cannot prove it works on Monad. Solidity compilation, real deployment, gas estimation, event replay and independent-browser confirmation must be completed with a real testnet wallet and a reachable RPC endpoint.
+The contract is deployed on Monad Testnet at `0x3cb03a2bb399916482ffaff524d4dc44debb860d` (block `70664010`), and the deployment, the successful trades, the rejected trade, the event replay and the independent-browser confirmation have all been run against it. See `RELEASE_STATUS.md` for the recorded results.
+
+What is still not proven by this package: the live write path has been exercised through the interface with an injected signer rather than a consumer wallet extension, so a judge signing with MetaMask is a path we have not reproduced ourselves. Practice-mode state stays in browser storage and is per-device by design.

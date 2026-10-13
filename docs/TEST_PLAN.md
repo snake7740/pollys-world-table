@@ -23,7 +23,28 @@
 | Check the hand-written browser ABI against the compiled ABI | `src/web3.mjs` selectors, `getMarket()` word count, `TradeExecuted` layout | Passed, 6 of 6 |
 | Check the bundled Keccak and commitment packing | `src/keccak.mjs` and `scripts/verify-history.mjs` against `viem` | Passed |
 
-## Still required on Monad Testnet
+## Live acceptance status
+
+Run against `0x3cb03a2bb399916482ffaff524d4dc44debb860d` on Monad Testnet, block `70664010`.
+
+| # | Check | Result |
+| --- | --- | --- |
+| 1 | Local build matches the deployed bytecode | **Done.** Runtime code is a byte-exact suffix of the local creation bytecode |
+| 2 | Deploy with a testnet wallet, confirm receipt and address | **Done.** Receipt status success, explorer page returns 200 |
+| 3 | Claim credits, confirm `CreditsClaimed`, second claim reverts | **Done.** Granted 500; a second claim reverts, and the UI no longer offers it |
+| 4 | Successful trade: receipt, balance, reserves, Polly, event | **Done.** 300 to 311, 30 to 29, `totalFeeds` 1, commitment set, `getPolly()` (1,1,1) |
+| 5 | Second wallet trades first and the saved limit fails | **Done.** Price moved 13 to 14, the stale limit was refused, credits untouched |
+| 6 | Browser traits equal `getPolly()` at the same block | **Done.** Agreement badge true on the published site |
+| 7 | Event replay from the deployment block | **Done.** Digest and trade count both agree |
+| 8 | Desktop and mobile views with the real contract configured | **Done.** Mobile renders the live market with no horizontal overflow and no console errors |
+
+One item remains open and is stated as such: the live **write** path was exercised through the
+interface using an injected signer backed by a real key, not through a consumer wallet extension. A
+judge signing with MetaMask is therefore a path we have not reproduced ourselves.
+
+`node scripts/live-e2e.mjs` re-runs checks 3 to 8 against the published site in a real browser.
+
+## Steps behind the results above
 
 1. Confirm the live contract matches the local build. `npm run compile` already succeeds with the pinned `solc` 0.8.37 and writes `build/PollyFeedMarket.json`; on-chain the deployed bytecode must equal that artifact, and explorer source verification must use the same compiler version with the optimizer at 200 runs.
 2. Deploy it using a testnet-only wallet. Check the deployment receipt and the contract address in an explorer.
@@ -34,7 +55,8 @@
 7. Run `scripts/verify-history.mjs` from the deployment block and verify the final digest and trade count.
 8. Inspect desktop and mobile views with the actual testnet contract configured. Save real receipt and explorer links.
 
-**Acceptance is incomplete until these live checks pass.** The bundled code and mock tests cannot stand in for them.
+**The live checks in the status table above have passed.** The bundled code and mock tests could not
+have stood in for them, which is why they were run against a deployed contract.
 
 ## Commands
 

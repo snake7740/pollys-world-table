@@ -78,19 +78,29 @@ You can use **Remix IDE** to compile and deploy `contracts/PollyFeedMarket.sol` 
 
 Monad Testnet: chain ID `10143`, RPC `https://testnet-rpc.monad.xyz`, testnet block explorer `https://testnet.monadscan.com`. Both endpoints were re-checked on 13 Oct 2026: the RPC answers `eth_chainId` with `0x279f`, and the explorer serves `/tx/<hash>` and `/address/<addr>`. `testnet.monadvision.com` was found to fail with a client-side application error, which is why it is no longer referenced here.
 
-**Important:** This package does not contain an already deployed contract or a live transaction hash. Deployment still needs your testnet wallet and a reachable network.
+**Live deployment.** This build is deployed and verified on Monad Testnet: contract `0x3cb03a2bb399916482ffaff524d4dc44debb860d`, deployed at block `70664010`, playable at `https://snake7740.github.io/pollys-world-table/`. Receipts and the full acceptance record are in `RELEASE_STATUS.md` and `docs/SUBMISSION_FIELDS_EN.md`.
 
 ## Tests and evidence
 
 ```bash
-npm test                  # Trading rules and failure cases
+npm run check               # Rules, assets and the HTTP allowlist
+npm test                    # Trading rules, failure cases and contract alignment
 node scripts/validate-assets.mjs
 node scripts/http-smoke.mjs
+node scripts/live-e2e.mjs   # Drives the published site against the deployed contract
 python scripts/browser_e2e.py
 python scripts/browser_wallet_mock_e2e.py
 ```
 
-The two browser scripts need Python Playwright and Chromium. Install them with `pip install playwright` and `python -m playwright install chromium`. They embed the real application modules because the build environment blocked localhost access from the browser. Screenshots are in `proof/`.
+`npm run check` needs only Node, so a third party can run it after a clone. The two Python scripts
+need Playwright and Chromium: install them with `pip install playwright` and
+`python -m playwright install chromium`. They embed the real application modules because the build
+environment blocked localhost access from the browser. Screenshots are in `proof/`.
+
+`scripts/live-e2e.mjs` drives the **published** site in a real browser against the deployed contract:
+connect, claim or already-claimed, purchase, feed history, the independent trait check, and a mobile
+viewport. It injects a signer backed by a testnet key in place of a wallet extension, so it proves
+the application's own code path rather than a consumer wallet's.
 
 The mock-wallet test uses a **fake wallet and fake RPC** to test UI wiring. It does not execute EVM bytecode. It is separate from the actual testnet acceptance run.
 

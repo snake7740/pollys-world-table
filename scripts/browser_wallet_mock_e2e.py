@@ -43,7 +43,7 @@ MOCK_JS = r"""
   function best(scores, fallback){const high=Math.max(...scores);return scores[fallback]==high?fallback:scores.indexOf(high);}
   return [best(ps,pals[last]),moods[last],best(hs,habits[last])];
  };
- window.POLLY_CONFIG={contractAddress:contract,chainId:10143,rpcUrl:'https://fake.monad.local/rpc',explorerUrl:'https://testnet.monadvision.com',pollingMs:100000};
+ window.POLLY_CONFIG={contractAddress:contract,chainId:10143,rpcUrl:'https://fake.monad.local/rpc',explorerUrl:'https://testnet.monadscan.com',pollingMs:100000};
  window.ethereum={request:async ({method,params})=>{
   if(method==='eth_requestAccounts')return [user];
   if(method==='eth_chainId')return '0x279f';
