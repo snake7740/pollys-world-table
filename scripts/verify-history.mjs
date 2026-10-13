@@ -8,7 +8,18 @@ if(!address){console.error('Configure contractAddress before audit');process.exi
 const rpcURL=(configText.match(/rpcUrl:\s*['"]([^'"]+)['"]/)||[])[1];
 const topic=keccak256('TradeExecuted(address,uint8,uint256,uint64,bytes32)');
 let id=0;
-async function rpc(method,params){const r=await fetch(rpcURL,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:++id,method,params})});const j=await r.json();if(j.error)throw Error(j.error.message);return j.result;}
+// The walk is hundreds of sequential requests, so one dropped connection must not lose the run.
+async function rpc(method,params,attempt=0){
+ const wait=ms=>new Promise(r=>setTimeout(r,ms));
+ try{
+  const r=await fetch(rpcURL,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:++id,method,params})});
+  const j=await r.json();if(j.error)throw Error(j.error.message);return j.result;
+ }catch(e){
+  if(attempt>=4)throw e;
+  await wait(500*(attempt+1));
+  return rpc(method,params,attempt+1);
+ }
+}
 const tip=BigInt(await rpc('eth_blockNumber',[]));
 let from=BigInt(process.env.FROM_BLOCK||0);let digest='0x'+'00'.repeat(32),counter=0n;
 const bytes=s=>Uint8Array.from(s.match(/../g).map(h=>parseInt(h,16)));

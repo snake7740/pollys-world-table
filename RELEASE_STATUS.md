@@ -41,9 +41,8 @@ deploy tx `0x0e2395160c9bc508a7404ed50ef8b3d542691f46426d1aa70fe71a4c4a0ff975`.
   event, rebuilds the commitment chain, and agrees with the contract on digest and trade count.
 - `node scripts/live-e2e.mjs` drives the **published site in a real browser** through connect,
   trade, feed history, the independent trait check, and a mobile viewport, with no console errors.
-  It reports 12 of 13 checks passing; the one flaky check is the harness's own purchase step, which
-  sometimes does not land within its wait window even though the same path succeeded in an earlier
-  run. Treat that line as a harness defect, not a product claim.
+  Run from a clean clone it reports **13 of 13 checks passing**, including a purchase clicked in the
+  interface that moved the on-chain feed count from 9 to 10.
 
 ## What the product is, stated plainly
 
@@ -52,10 +51,26 @@ balances, the shared parrot and the trade history all live in the contract and a
 There is no liquidity, no order book, no custody and no cash value, and the pricing rule is a
 deliberately simplified constant-product quote for teaching, not a new market algorithm.
 
-## Still open
+## Reproducibility check from a clean clone
 
-- The two videos must be recorded and hosted publicly, and their URLs entered on the submission form.
-- The live end-to-end harness has one flaky assertion to stabilise.
+Repeating every check against a fresh `git clone` rather than the working copy found one real defect
+and confirmed the rest.
+
+- **Defect found and fixed:** the repository had no `.gitattributes`. On a Windows machine with
+  `core.autocrlf=true` a clone checks out CRLF, and because the Solidity metadata hash covers the
+  source bytes, that clone compiles to different bytecode than the contract actually deployed. The
+  published site also stopped matching the repository byte for byte. Adding `.gitattributes` and
+  renormalizing fixed all seven file comparisons.
+- After the fix, from a clean clone: `npm install`, `npm run check` (22 tests, 55 assets, HTTP
+  allowlist), and `npm run compile` all exit 0; the deployed runtime bytecode is a byte-exact suffix
+  of the clone-compiled creation code; and all seven published files are byte-identical to the clone.
+- `scripts/live-e2e.mjs` run from the clone reports 13 of 13.
+
+## Known limits
+
+- The live write path is exercised through the interface with an injected signer rather than a
+  consumer wallet extension, so a judge signing with MetaMask is a path we have not reproduced
+  ourselves.
 - Practice mode keeps browser state in `localStorage`; the live path does not.
 
 ## Quick start
