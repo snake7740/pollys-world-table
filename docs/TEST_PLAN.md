@@ -75,3 +75,5 @@ FROM_BLOCK=YOUR_BLOCK node scripts/verify-history.mjs
 `FROM_BLOCK` is required, not optional. The audit requests 100 blocks per call because the public RPC rejects wider `eth_getLogs` windows with HTTP 413, so the default of `0` means roughly 700,000 requests on the current Monad Testnet. In PowerShell use `$env:FROM_BLOCK="YOUR_BLOCK"` before `npm run audit`.
 
 The image files in `proof/` are captured from the isolated browser tests. They show what ran locally. They are not proof of a real blockchain transaction.
+
+`proof/video/live-desktop.png` and `proof/video/live-mobile.png` were captured from the published site in Testnet mode against the deployed contract, so those two do show live chain state. The demo video itself is hosted on YouTube and linked from the submission form; it is not committed to the repository.
