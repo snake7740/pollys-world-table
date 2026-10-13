@@ -153,8 +153,8 @@ No account, password or API key is needed.
 3. Click "Get 500 play credits" once per wallet. Credits are non-transferable and cannot be withdrawn.
 4. Pick a snack, set a maximum price, and buy. The page then compares its own calculation of the parrot against getPolly() at the same block and shows "The contract and this page agree" only when they match.
 5. Contract: {{CONTRACT}} · deployed at block {{DEPLOY_BLOCK}} · receipts: https://testnet.monadscan.com/address/{{CONTRACT}}
-6. To re-check the whole trade history yourself, run: FROM_BLOCK={{DEPLOY_BLOCK}} npm run audit   (it replays TradeExecuted events and rebuilds the on-chain commitment).
-7. Local verification: npm test (22 tests), node scripts/validate-assets.mjs, node scripts/http-smoke.mjs, npm run compile.
+6. To re-check the whole trade history yourself, run: FROM_BLOCK={{DEPLOY_BLOCK}} npm run audit . It rebuilds the commitment chain from TradeExecuted events and compares it with the contract. Budget about ten minutes: the public RPC caps eth_getLogs at 100 blocks per request, so the walk is roughly 800 calls and grows as the chain advances.
+7. Local checks: npm run check for the Node-only set (22 tests, 55 assets, HTTP allowlist), npm run compile, and node scripts/live-e2e.mjs which drives the published site in a real browser against the deployed contract.
 
 The market is shared, so quotes move as other judges trade. That is intended behaviour, not a fault.
 ```
@@ -174,9 +174,11 @@ The market is shared, so quotes move as other judges trade. That is intended beh
 
 ---
 
-## What is actually saved on the platform right now
+## What was saved on the platform right now
 
-Verified by reloading the page and reading the fields back from the server, not from client state.
+Snapshot taken at `lastSavedAt 2026-10-13T17:29:44Z`, superseded by the final table at the end of
+this file (`17:54:41Z`, access instructions extended to 1,514 characters). Kept because it records
+the state before the duration note was added.
 
 | Field | Characters | Server state |
 | --- | --- | --- |
@@ -282,7 +284,7 @@ deploy tx `0x0e2395160c9bc508a7404ed50ef8b3d542691f46426d1aa70fe71a4c4a0ff975` (
 | Forced failing buy, limit below price | **mined on chain with status 0x0**, tx `0x3c0e346d46041cbbbf45c404a13dfaf0991649570cb6641b95a412ad424a5f3e`; state afterwards identical to before |
 | Second `claimCredits()` | reverted |
 | Two-wallet race | rival traded twice first, price 13 -> 14; the saved limit of 13 was rejected and its credits stayed 466 |
-| Event replay audit | `FROM_BLOCK=70664010 node scripts/verify-history.mjs` -> "1 trades ... event history, transaction order, trade count and on-chain digest all agree" |
+| Event replay audit | `FROM_BLOCK=70664010 node scripts/verify-history.mjs` -> "Event replay passed: 9 trades, final commitment 0x73336dcc...d76edd0" then "event history, transaction order, trade count and on-chain digest all agree" (9 min 30 s, 795 requests) |
 | Published site in Testnet mode | shows `2 confirmed feeds`, real feed history row with a working MonadScan link, agreement badge true, zero console errors |
 
 Explorer links verified reachable (HTTP 200): the transaction page and the contract page on
@@ -423,7 +425,7 @@ outstanding work, not completed work.
 | Go-to-market | 3,782 / 8,000, names a specific first user |
 | GitHub repository | `https://github.com/snake7740/pollys-world-table` |
 | Live product | `https://snake7740.github.io/pollys-world-table/` |
-| Judge access instructions | **Saved.** 1,342 characters, read back from the server |
+| Judge access instructions | **Saved.** 1,514 characters, read back from the server |
 | Description live evidence | **Saved.** 4,428 characters total, `LIVE EVIDENCE` block present |
 | Technical demo video | `https://www.youtube.com/watch?v=hj0qxcm6-g4` |
 | Pitch video | `https://www.youtube.com/watch?v=LfJ75FWCfYA` |
@@ -431,7 +433,7 @@ outstanding work, not completed work.
 
 ## Submission complete
 
-Read back from `/api/v1/submission` at `2026-10-13T17:29:44Z`:
+Read back from `/api/v1/submission` at `2026-10-13T17:54:41Z`:
 
 `phase: ready_to_submit`, `Submission checklist: 5 of 5 complete`, and the form no longer raises the
 "Required information missing" dialog. Every required field holds a real value:
@@ -447,7 +449,7 @@ repository   https://github.com/snake7740/pollys-world-table
 demoUrl      https://snake7740.github.io/pollys-world-table/
 demoVideo    https://www.youtube.com/watch?v=hj0qxcm6-g4
 pitchVideo   https://www.youtube.com/watch?v=LfJ75FWCfYA
-access       1,342 characters
+access       1,514 characters
 ```
 
 Because the terms state "Judges read the copy you have saved when your deadline passes. There is
