@@ -5,5 +5,4 @@ deployments/
 .DS_Store
 
 proof/video/*.webm
-proof/video/*.webm
 proof/video/*.mp4

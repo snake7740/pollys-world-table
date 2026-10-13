@@ -396,7 +396,9 @@ claim of a new market algorithm, no claim of liquidity, and no claim of real fin
 
 ## Technical demo video
 
-Produced with `node scripts/record-demo.mjs` and assembled by `proof/video/build-demo.mjs`.
+Recorded with `node scripts/record-demo.mjs`, then assembled with `ffmpeg`: frozen stretches found by
+`freezedetect` were cut down to 0.5 s each so the wait for chain confirmations does not dominate the
+video, and the captions below were burned in with the ASS filter.
 
 | Property | Value | Requirement |
 | --- | --- | --- |
