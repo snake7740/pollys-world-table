@@ -410,7 +410,8 @@ stretch so each screen can still be read. Nothing was simulated and no frame was
 
 ## Final state of the submission form
 
-Saved on the platform and read back from the server:
+Verified against the server, not against what we intended to save. Rows marked **NOT yet** are
+outstanding work, not completed work.
 
 | Field | State |
 | --- | --- |
@@ -418,11 +419,12 @@ Saved on the platform and read back from the server:
 | Project logo | uploaded |
 | Project name | `Polly's World Table` |
 | One-line description | 185 / 200, sandbox framing, no longer names a different track |
-| Description | live evidence block appended with the real contract, block and transaction hashes |
+| Description | 3,870 / 8,000 saved with the MonadScan correction. The live-evidence paragraph has **not** been appended yet - see the two rows above. |
 | Go-to-market | 3,782 / 8,000, names a specific first user |
 | GitHub repository | `https://github.com/snake7740/pollys-world-table` |
 | Live product | `https://snake7740.github.io/pollys-world-table/` |
-| Judge access instructions | filled with the real address, block and replay command |
+| Judge access instructions | **NOT yet entered.** The text is ready above; the submission tab does not render while backgrounded, so it still needs one save. Do not treat this row as done until it is read back from the server. |
+| Description live evidence | **NOT yet appended.** Same reason as above. |
 | Technical demo video | **awaiting your upload of `polly-demo-subtitled.mp4`** |
 | Pitch video | **awaiting your recording** |
 | SUBMIT | not pressed; the terms say judges read whatever is saved at the deadline |
